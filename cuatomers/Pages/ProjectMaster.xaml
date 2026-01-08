@@ -1,0 +1,210 @@
+﻿<Page x:Class="cuatomers.Pages.ProjectMaster"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:cuatomers.Pages"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ProjectMaster">
+
+    <Page.Resources>
+        <!-- Enhanced Styles -->
+        <Style TargetType="Label">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#333333"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Background" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#4A90E2"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+
+        <Style TargetType="DatePicker">
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+
+        <Style TargetType="RadioButton">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,0,15,0"/>
+        </Style>
+
+        <Style x:Key="SaveButton" TargetType="Button">
+            <Setter Property="Background" Value="#4CAF50"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#45A049"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="CancelButton" TargetType="Button">
+            <Setter Property="Background" Value="#f44336"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#da190b"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid >
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="70*"/>
+            <RowDefinition Height="15*"/>
+        </Grid.RowDefinitions>
+
+
+        <!-- Project Master Tab -->
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,0">
+            <TextBlock Text="Project Master" FontSize="24" FontWeight="Bold" Foreground="#333" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20 0 0 30"/>
+            <Rectangle Height="1" Fill="DarkGray" HorizontalAlignment="Center" Margin="10 10 0 -10"/>
+
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Background="White">
+            <Grid Margin="100,20,-100,0">
+                <Grid.RowDefinitions>
+                    <!-- 9 Rows -->
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <!-- Project Name -->
+                <Label Grid.Row="0" Grid.Column="0" Content="Customer Name" Margin="0,0,15,15"/>
+                <ComboBox x:Name="customerComboBox"
+          Grid.Row="0"
+          Grid.Column="1"
+          Width="400"
+          Margin="-250,0,250,15"
+          SelectedValuePath="CustomerID"
+          SelectedValue="{Binding SelectedCustomerID}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                <Run Text="{Binding Full_Name}" />
+                <Run Text=" | " />
+                <Run Text="{Binding ProjectName}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+
+                <Label Grid.Row="1" Grid.Column="0" Content="Project Name" Margin="0,0,15,15"/>
+                <TextBox x:Name="projectNameTextBox" Width="400" Grid.Row="1" Grid.Column="1" Margin="-250,0,250,15"/>
+
+                <!-- Descriptions -->
+                <Label Grid.Row="2" Grid.Column="0" Content="Descriptions" Margin="0,0,15,15"/>
+                <TextBox x:Name="descriptionTextBox" Grid.Row="2" Grid.Column="1"
+                                 TextWrapping="Wrap" Height="80" Width="400" Margin="-250,0,250,15"
+                                 VerticalScrollBarVisibility="Auto"/>
+
+                <!-- Start Date -->
+                <Label Grid.Row="3" Grid.Column="0" Content="Start Date" Margin="0,0,15,15"/>
+                <DatePicker x:Name="startDatePicker"
+            Width="200"
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="-350,0,350,15"
+             >
+                   
+                </DatePicker>
+
+                <!-- Approximate End Date -->
+                <Label Grid.Row="4" Grid.Column="0" Content="Approximate End Date" Margin="0,0,15,15"/>
+                <DatePicker x:Name="endDatePicker" Width="200" Grid.Row="4" Grid.Column="1" Margin="-350,0,350,15"/>
+
+                <!-- Contact Person -->
+                <Label Grid.Row="5" Grid.Column="0" Content="Contact Person" Margin="0,0,15,15"/>
+                <TextBox x:Name="contactPersonTextBox" Width="400" Grid.Row="5" Grid.Column="1" Margin="-250,0,250,15"/>
+
+                <!-- Contact Number -->
+                <Label Grid.Row="6" Grid.Column="0" Content="Contact Number" Margin="0,0,15,15"/>
+                <TextBox x:Name="contactNumberTextBox" Width="400" Grid.Row="6" Grid.Column="1" Margin="-250,0,250,15"/>
+
+                <!-- Department -->
+                <Label Grid.Row="7" Grid.Column="0" Content="Department" Margin="0,0,15,15"/>
+                <TextBox x:Name="departmentTextBox" Grid.Row="7   " Width="400" Grid.Column="1" Margin="-250,0,250,15"/>
+
+
+                <!-- Customer Master -->
+
+            </Grid>
+        </ScrollViewer>
+
+        <!-- Buttons -->
+        <Grid Grid.Row="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,25,50,0">
+
+                <Button Click="Save_ProjectMaster" Content="Save" Foreground="White" Margin="0,0,10,0" FontWeight="SemiBold" BorderThickness="0">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color=" #0055ff" Offset="0.1"/>
+                            <GradientStop Color="#00091a" Offset="1.1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+
+                <Button Click="btnCancel_Click" Content="Cancel"  Foreground="White"  BorderBrush="#CCC" BorderThickness="1">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color=" #ff33cc" Offset="0.1"/>
+                            <GradientStop Color="#1a0013" Offset="1.1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+
+
+        </Grid>
+
+    </Grid>
+</Page>
+           

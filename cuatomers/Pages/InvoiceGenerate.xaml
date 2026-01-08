@@ -1,0 +1,589 @@
+﻿<Page x:Class="cuatomers.Pages.InvoiceGenerate"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:cuatomers.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="InvoiceGenerate">
+    <Page.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="35"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+
+
+        <Style x:Key="RedTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+
+
+
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#4285F4"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                              CornerRadius="4" 
+                              Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#3367D6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#4285F4"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#4285F4"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="4" 
+                              Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#F8F9FA"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LinkButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="#4285F4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#3367D6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="BorderlessTextBox" TargetType="TextBox">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <Style x:Key="BorderlessComboBox" TargetType="ComboBox">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+    </Page.Resources>
+
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Background="#F8F9FA" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="New Invoice" FontSize="24" FontWeight="Bold" Margin="20,15" VerticalAlignment="Center"/>
+
+            <Button Content="View History" Grid.Column="3" Click="btnInvoiceHistory_Click"
+Width="140"
+Height="40"
+Background="#4A90E2"
+Foreground="White"
+FontWeight="Bold"
+FontSize="14"
+BorderThickness="0"
+Margin="10"
+Padding="5"
+Cursor="Hand"
+HorizontalAlignment="Left"
+VerticalAlignment="Center">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="#4A90E2" />
+                        <Setter Property="Foreground" Value="White" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+                        CornerRadius="6"
+                        SnapsToDevicePixels="True">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#357ABD" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+        <!-- Main Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20">
+
+                <!-- Customer and Invoice Info -->
+                <Grid Margin="0,0,0,30">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Select Quote" Style="{StaticResource RedTextStyle}" VerticalAlignment="Center" Margin="0 0 0 15"/>
+                    <Grid Grid.Row="0" Grid.Column="1" Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Margin="0">
+                            <ComboBox x:Name="cmbSelectQuote"
+          DisplayMemberPath="QuoteNumber"
+          SelectedValuePath="QuoteID"
+          SelectionChanged="cmbSelectQuote_SelectionChanged"
+          Width="300"/>
+
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox 
+                         x:Name="cmbSelectCustomer"
+DisplayMemberPath="Full_Name"
+SelectedValuePath="Full_Name"
+Width="300" Grid.Column="1" Grid.Row="1" Margin="0 0 0 15" />
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock x:Name="txtblkBilling" Text="Billing Address:" Margin="0,20,0,5" FontWeight="Bold" Visibility="Collapsed"/>
+                                <TextBlock x:Name="txtBillingAddress" TextWrapping="Wrap" FontWeight="SemiBold" Height="130" Padding="5" Visibility="Collapsed"/>
+                            </StackPanel>
+                            <StackPanel Margin="50 0 0 0" HorizontalAlignment="Right" Orientation="Vertical">
+                                <TextBlock x:Name="txtShipping" Text="Shipping Address:" Margin="0,20,0,5" FontWeight="Bold" Visibility="Collapsed"/>
+                                <TextBlock x:Name="txtShippingAddress" TextWrapping="Wrap" FontWeight="SemiBold" Height="130" Padding="5" Visibility="Collapsed"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Customer Name" Style="{StaticResource RedTextStyle}" VerticalAlignment="Center" Margin="0,0,0,15"/>
+
+
+
+
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Invoice" Style="{StaticResource RedTextStyle}" VerticalAlignment="Center" Margin="0,0,0,15"/>
+                    <TextBox x:Name="txtInvoiceNumber" Grid.Row="2" Grid.Column="1" Margin="0,0,0,15"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Invoice Date" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                    <TextBox x:Name="txtInvoiceDate" Grid.Row="3" Grid.Column="1" Text="06-06-2025" Margin="0,0,0,0" IsReadOnly="True"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="3" Text="Expiry Date" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                    <DatePicker x:Name="txtDueDate"
+                            Grid.Row="3"
+                            Grid.Column="4"
+                            SelectedDateFormat="Short"
+                            DisplayDateStart="2000-01-01"
+                            DisplayDateEnd="2100-12-31"
+                            Margin="0,0,80,0"/>
+                </Grid>
+
+                <!-- Project Name -->
+                <Grid Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Project Name" VerticalAlignment="Center" Margin="0,0,0,15"/>
+                    <ComboBox x:Name="cmbProject" Grid.Column="1" DisplayMemberPath="ProjectName" SelectedValuePath="ProjectName" Margin="0,0,0,15"/>
+                </Grid>
+
+                <!-- Subject -->
+                <Grid Margin="0,0,0,30">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Subject" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtSubject" Grid.Column="1"
+                         Text="Brief Description of the Invoice"
+                         Height="60" TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         VerticalAlignment="Top"
+                         VerticalContentAlignment="Top"
+                         Foreground="#999999"/>
+                </Grid>
+
+                <!-- Item Table (keep same layout for reuse) -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel  Margin="10">
+                        <!-- Item Table Section -->
+                        <Border BorderBrush="#E0E0E0" BorderThickness="1" Margin="0,0,0,20">
+                            <StackPanel>
+                                <!-- Header -->
+                                <Grid Background="#F8F9FA" Height="50">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Item Table" FontWeight="Bold" FontSize="16" 
+                    VerticalAlignment="Center" Margin="20,0"/>
+
+                                </Grid>
+
+
+                                <Grid Background="#F8F9FA" Height="45">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"/>
+                                        <!-- Item -->
+                                        <ColumnDefinition Width="100"/>
+                                        <!-- HSN -->
+                                        <ColumnDefinition Width="100"/>
+                                        <!-- UOM -->
+                                        <ColumnDefinition Width="80"/>
+                                        <!-- Qty -->
+                                        <ColumnDefinition Width="100"/>
+                                        <!-- Rate -->
+                                        <ColumnDefinition Width="120"/>
+                                        <!-- Tax -->
+                                        <ColumnDefinition Width="100"/>
+                                        <!-- Amount -->
+                                        <ColumnDefinition Width="60"/>
+                                        <!-- Delete -->
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Item -->
+                                    <TextBlock Grid.Column="0" Text="ITEM DETAILS" 
+                                  FontWeight="Bold" FontSize="12" 
+                                  VerticalAlignment="Center" Margin="20,0"/>
+
+                                    <!-- HSN -->
+                                    <TextBlock Grid.Column="1" Text="HSN" 
+                                  FontWeight="Bold" FontSize="12"
+                                  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                                    <!-- UOM -->
+                                    <TextBlock Grid.Column="2" Text="UOM" 
+                                  FontWeight="Bold" FontSize="12"
+                                  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                                    <!-- Quantity -->
+                                    <TextBlock Grid.Column="3" Text="QUANTITY" 
+                                  FontWeight="Bold" FontSize="12"
+                                  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                                    <!-- Rate -->
+                                    <TextBlock Grid.Column="4" Text="RATE" 
+                                  FontWeight="Bold" FontSize="12"
+                                  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                                    <!-- Tax -->
+                                    <TextBlock Grid.Column="5" Text="TAX" 
+                                  FontWeight="Bold" FontSize="12"
+                                  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                                    <!-- Amount -->
+                                    <TextBlock Grid.Column="6" Text="AMOUNT" 
+                                  FontWeight="Bold" FontSize="12"
+                                  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                                    <!-- Delete -->
+                                    <TextBlock Grid.Column="7" Text="" />
+                                    <!-- Optional empty column for delete button -->
+                                </Grid>
+
+
+                                <!-- Item Row -->
+                                <StackPanel x:Name="ItemPanel">
+                                    <Grid Height="60" Background="White" Margin="0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <!-- Item -->
+                                            <ColumnDefinition Width="100"/>
+                                            <!-- HSN -->
+                                            <ColumnDefinition Width="100"/>
+                                            <!-- UOM -->
+                                            <ColumnDefinition Width="80"/>
+                                            <!-- Qty -->
+                                            <ColumnDefinition Width="100"/>
+                                            <!-- Rate -->
+                                            <ColumnDefinition Width="120"/>
+                                            <!-- Tax -->
+                                            <ColumnDefinition Width="100"/>
+                                            <!-- Amount -->
+                                            <ColumnDefinition Width="60"/>
+                                            <!-- Delete -->
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Item Description -->
+                                        <TextBox x:Name="txtStaticItemDescription" Grid.Column="0" 
+                                    Text="Enter Item" 
+                                    Style="{StaticResource BorderlessTextBox}"
+                                    Margin="10,0" Foreground="#999999"/>
+
+                                        <!-- HSN Code -->
+                                        <TextBox x:Name="txtStaticHSN" Grid.Column="1"
+                                    Text="HSN"
+                                    Width="90"
+                                    HorizontalAlignment="Center"
+                                    TextAlignment="Center"
+                                    Style="{StaticResource BorderlessTextBox}" />
+
+
+                                        <!-- UOM -->
+                                        <ComboBox x:Name="cmbUOM" Grid.Column="2"
+                                     Style="{StaticResource BorderlessComboBox}"
+                                     HorizontalAlignment="Center" Width="80">
+                                            <ComboBoxItem Content="PCS"/>
+                                            <ComboBoxItem Content="KG"/>
+                                            <ComboBoxItem Content="Litre"/>
+                                            <ComboBoxItem Content="Meter"/>
+                                            <ComboBoxItem Content="Box"/>
+                                        </ComboBox>
+
+                                        <!-- Quantity -->
+                                        <TextBox x:Name="txtStaticItemQty" Grid.Column="3"
+                                    Text="0"
+                                    Style="{StaticResource BorderlessTextBox}"
+                                    HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
+
+                                        <!-- Rate -->
+                                        <TextBox x:Name="txtStaticItemRate" Grid.Column="4"
+                                    Text="0"
+                                    Style="{StaticResource BorderlessTextBox}"
+                                    HorizontalAlignment="Center" TextAlignment="Center" Width="80"/>
+
+                                        <!-- Tax -->
+                                        <ComboBox x:Name="cmbStaticItemTax" Grid.Column="5"
+                                     Style="{StaticResource BorderlessComboBox}"
+                                     HorizontalAlignment="Center" Width="100">
+                                            <ComboBoxItem Content="0%" />
+                                            <ComboBoxItem Content="5%" />
+                                            <ComboBoxItem Content="12%" />
+                                            <ComboBoxItem Content="18%" />
+                                            <ComboBoxItem Content="28%" />
+                                        </ComboBox>
+
+                                        <!-- Amount -->
+                                        <TextBlock x:Name="txtStaticItemAmount" Grid.Column="6"
+                                      Text="0" FontWeight="Medium"
+                                      VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                                        <!-- Delete Button -->
+                                        <StackPanel Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <Button x:Name="btnRemoveItem" Content="✕"
+                                       Background="Transparent" BorderThickness="0"
+                                       Foreground="#FF5722" FontSize="14" Cursor="Hand"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+
+                                <!-- Add Buttons -->
+                                <StackPanel Orientation="Horizontal" Margin="20,15" Background="White">
+                                    <Button x:Name="btnAddNewRow" Content="➕ Add New Row" 
+                               Style="{StaticResource PrimaryButton}" Margin="0,0,15,0" Click="btnAddNewRow_Click" />
+
+                                </StackPanel>
+
+
+                                <!-- Totals Section -->
+                                <Grid Margin="20,20,20,25" Background="White">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="150"/>
+                                    </Grid.ColumnDefinitions>
+
+
+
+                                    <!-- Discount -->
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" 
+                                   HorizontalAlignment="Right" Margin="0,8">
+
+                                        <TextBlock Text="Discount" VerticalAlignment="Center" FontSize="14"/>
+                                        <TextBox x:Name="txtDiscountPercent" Width="60" Height="30" 
+                                    Text="0" Margin="15,0,5,0" TextAlignment="Center"
+                                    BorderBrush="#CCCCCC" BorderThickness="1"/>
+                                        <TextBlock Text="%" VerticalAlignment="Center" Margin="5,0" FontSize="14"/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="txtDiscountAmount" Grid.Row="1" Grid.Column="1" 
+                                  Text="0.00" HorizontalAlignment="Right" Margin="0,8" FontSize="14"/>
+
+
+                                    <!-- Separator -->
+                                    <Border Grid.Row="4" Grid.ColumnSpan="2" Height="1" 
+                 Background="#E0E0E0" Margin="0,15"/>
+
+                                    <!-- Grand Total -->
+                                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Total ( ₹ )" 
+                    FontWeight="Bold" FontSize="18" 
+                    HorizontalAlignment="Right" Margin="0,8"/>
+                                    <TextBlock x:Name="txtGrandTotal" Grid.Row="5" Grid.Column="1" 
+                    Text="0.00" FontWeight="Bold" FontSize="18" 
+                    HorizontalAlignment="Right" Margin="0,8"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Customer Notes Section -->
+                        <StackPanel Margin="0,20,0,0">
+                            <TextBlock Text="Customer Notes" FontWeight="Bold" FontSize="14" Margin="0,0,0,10"/>
+                            <TextBox x:Name="txtCustomerNotes" 
+          Text="Thanks for your business." 
+          Height="80" 
+          TextWrapping="Wrap" 
+          AcceptsReturn="True"
+                        VerticalContentAlignment="Stretch"
+          VerticalScrollBarVisibility="Auto"
+          BorderBrush="#CCCCCC" 
+          BorderThickness="1"
+          Padding="10"/>
+
+                        </StackPanel>
+
+                        <!-- Customer Notes -->
+
+
+                        <!-- Terms & Conditions -->
+                        <Grid Margin="0,0,0,20">
+                            <StackPanel Margin="0,20,0,0">
+                                <TextBlock Text="Terms And Conditions" FontWeight="Bold" FontSize="14" Margin="0,0,0,10"/>
+                                <TextBox x:Name="txtTermsAndConditions" 
+                               Text="" 
+                               Height="80" 
+                               TextWrapping="Wrap" 
+                               AcceptsReturn="True"
+                                             VerticalContentAlignment="Stretch"
+                               VerticalScrollBarVisibility="Auto"
+                               BorderBrush="#CCCCCC" 
+                               BorderThickness="1"
+                               Padding="10"/>
+
+                            </StackPanel>
+                        </Grid>
+
+
+                    </StackPanel>
+
+                </ScrollViewer>
+
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Footer -->
+        <Grid Grid.Row="2" Background="#F8F9FA" Height="60">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0">
+                <Button x:Name="btnSaveAndSend" Content="Save and Send" Style="{StaticResource PrimaryButton}" Margin="0,0,10,0" Click="btnSaveAndSendInvoice_Click" >
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#0055ff" Offset="0.1"/>
+                            <GradientStop Color="#00091a" Offset="1.1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button  Content="Cancel" Foreground="White" Style="{StaticResource SecondaryButton}">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#ff33cc" Offset="0.1"/>
+                            <GradientStop Color="#1a0013" Offset="1.1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+</Page>

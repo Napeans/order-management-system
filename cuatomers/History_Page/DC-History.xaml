@@ -1,0 +1,52 @@
+﻿<Page x:Class="cuatomers.DC_History"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:cuatomers"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="DC_History">
+
+    <Grid>
+        <DataGrid x:Name="challanDataGrid"
+          AutoGenerateColumns="False"
+          Margin="10"
+          IsReadOnly="True"
+          CanUserAddRows="False"
+          CanUserDeleteRows="False"
+          RowHeight="35"
+          FontSize="13"
+          GridLinesVisibility="All"
+          AlternatingRowBackground="#F9F9F9"
+          HeadersVisibility="Column"
+          ColumnHeaderHeight="35"
+          BorderThickness="1"
+          BorderBrush="#DDD"
+          HorizontalAlignment="Stretch">
+
+            <DataGrid.Resources>
+                <!-- Header Style -->
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#4A90E2"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Height" Value="35"/>
+                    <Setter Property="Padding" Value="5,0"/>
+                </Style>
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Challan ID" Binding="{Binding DeliveryChallanId}" Width="100"/>
+                <DataGridTextColumn Header="Challan No." Binding="{Binding ChallanNumber}" Width="120"/>
+                <DataGridTextColumn Header="Challan Date" Binding="{Binding ChallanDate, StringFormat=d}" Width="110"/>
+                <DataGridTextColumn Header="Bill To Address" Binding="{Binding BillToAddress}" Width="200"/>
+                <DataGridTextColumn Header="Ship To Address" Binding="{Binding ShipToAddress}" Width="200"/>
+                <DataGridTextColumn Header="Remarks" Binding="{Binding Remarks}" Width="180"/>
+                <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt, StringFormat=g}" Width="140"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Page>

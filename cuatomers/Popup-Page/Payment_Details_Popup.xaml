@@ -1,0 +1,56 @@
+﻿<Window x:Class="cuatomers.Popup_Page.Payment_Details_Popup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:cuatomers.Popup_Page"
+        mc:Ignorable="d"
+        Title="Payment_Details_Popup" Height="450" Width="800">
+
+
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Payment Date -->
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Payment Date:" VerticalAlignment="Center" Margin="0,10"/>
+        <DatePicker Grid.Row="0" Grid.Column="1" x:Name="dpPaymentDate" Margin="0,10"/>
+
+        <!-- Amount Received -->
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Amount Received:" VerticalAlignment="Center" Margin="0,10"/>
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtAmountReceived" Margin="0,10"/>
+
+        <!-- Tax Deducted -->
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Tax Deducted:" VerticalAlignment="Center" Margin="0,10"/>
+        <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtTaxDeducted" Margin="0,10"/>
+
+        <!-- IGST -->
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="IGST Value:" VerticalAlignment="Center" Margin="0,10"/>
+        <TextBox Grid.Row="3" Grid.Column="1" x:Name="txtIGST" Margin="0,10"/>
+
+        <!-- CGST -->
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="CGST Value:" VerticalAlignment="Center" Margin="0,10"/>
+        <TextBox Grid.Row="4" Grid.Column="1" x:Name="txtCGST" Margin="0,10"/>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Save" Width="90" Margin="0,0,10,0" Click="SaveButton_Click" Background="#0078D7" Foreground="White"/>
+            <Button Content="Cancel" Width="90" Click="CancelButton_Click"/>
+        </StackPanel>
+
+
+    </Grid>
+</Window>

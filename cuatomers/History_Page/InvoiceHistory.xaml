@@ -1,0 +1,316 @@
+﻿<Page x:Class="cuatomers.InvoiceHistory"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+          xmlns:local="clr-namespace:cuatomers"
+          mc:Ignorable="d" 
+          d:DesignHeight="450" d:DesignWidth="800"
+          Title="InvoiceHistory">
+
+    <Page.Resources>
+        <!-- Style for center-aligned text in DataGrid -->
+        <Style x:Key="CenterTextStyle" TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Converter for calculating PendingAmount -->
+        <local:PendingAmountConverter x:Key="PendingAmountConverter" />
+        <local:PendingAmountBrushConverter x:Key="PendingAmountBrushConverter" />
+
+
+    </Page.Resources>
+
+
+
+    <Grid>
+        <DockPanel LastChildFill="True">
+
+            <!-- Footer Legend -->
+            <Border Background="#F2F2F2"
+            Padding="10"
+            BorderBrush="#DDD"
+            BorderThickness="1"
+            Margin="10,0,10,10"
+            DockPanel.Dock="Bottom">
+                <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+
+                    <!-- View -->
+                    <StackPanel Orientation="Vertical" Margin="20,0" HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="EyeOutline" Width="16" Height="16" HorizontalAlignment="Center"/>
+                        <TextBlock Text="View" FontSize="12" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Edit -->
+                    <StackPanel Orientation="Vertical" Margin="20,0" HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Edit" Width="16" Height="16" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Edit" FontSize="12" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Send to Client -->
+                    <StackPanel Orientation="Vertical" Margin="20,0" HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Share" Width="16" Height="16" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Send to Client" FontSize="12" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Add Payment -->
+                    <StackPanel Orientation="Vertical" Margin="20,0" HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="AccountPaymentOutline" Width="16" Height="16" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Add Payment" FontSize="12" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Download -->
+                    <StackPanel Orientation="Vertical" Margin="20,0" HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Download" Width="16" Height="16" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Download" FontSize="12" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Delete -->
+                    <StackPanel Orientation="Vertical" Margin="20,0" HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="DeleteOutline" Width="16" Height="16" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Delete" FontSize="12" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </Border>
+
+            <DataGrid x:Name="invoiceDataGrid"
+              AutoGenerateColumns="False"
+              Margin="10"
+              IsReadOnly="True"
+              CanUserAddRows="False"
+              CanUserDeleteRows="False"
+              RowHeight="45"
+              FontSize="13"
+              GridLinesVisibility="All"
+              AlternatingRowBackground="#F9F9F9"
+              HeadersVisibility="Column"
+              ColumnHeaderHeight="35"
+              BorderThickness="1"
+              BorderBrush="#DDD"
+              HorizontalAlignment="Stretch"
+              CanUserResizeColumns="False">
+
+                <DataGrid.Resources>
+                    <!-- Header Center Style -->
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#4A90E2"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="Height" Value="35"/>
+                        <Setter Property="Padding" Value="5,0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+
+                    <!-- Cell Centering Style -->
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    </Style>
+                </DataGrid.Resources>
+
+                <DataGrid.Columns>
+
+                    <DataGridTemplateColumn Header="Status" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border x:Name="statusBorder"
+                    Padding="6,2"
+                    CornerRadius="14"
+                    Background="#F1F3F5"
+                    BorderBrush="#DEE2E6"
+                    BorderThickness="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    MinWidth="100">
+                                    <TextBlock x:Name="statusText"
+                           Text="{Binding INVStatus}"
+                           FontWeight="SemiBold"
+                           FontSize="12"
+                           Foreground="#495057"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"
+                           Margin="4,1"/>
+                                </Border>
+
+                                <!-- Triggers for professional badge colors -->
+                                <DataTemplate.Triggers>
+
+                                    <!-- Amber / Warning -->
+                                    <DataTrigger Binding="{Binding INVStatus}" Value="In Progress">
+                                        <Setter TargetName="statusBorder" Property="Background" Value="#FFF3CD"/>
+                                        <Setter TargetName="statusBorder" Property="BorderBrush" Value="#FFECB5"/>
+                                        <Setter TargetName="statusText" Property="Foreground" Value="#856404"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding INVStatus}" Value="PENDING">
+                                        <Setter TargetName="statusBorder" Property="Background" Value="#FFF3CD"/>
+                                        <Setter TargetName="statusBorder" Property="BorderBrush" Value="#FFECB5"/>
+                                        <Setter TargetName="statusText" Property="Foreground" Value="#856404"/>
+                                    </DataTrigger>
+
+                                    <!-- Blue / Info -->
+                                    <DataTrigger Binding="{Binding INVStatus}" Value="PARTIAL PAYMENT RECEIVED">
+                                        <Setter TargetName="statusBorder" Property="Background" Value="#CCE5FF"/>
+                                        <Setter TargetName="statusBorder" Property="BorderBrush" Value="#99CCFF"/>
+                                        <Setter TargetName="statusText" Property="Foreground" Value="#004085"/>
+                                    </DataTrigger>
+
+                                    <!-- Green / Success -->
+                                    <DataTrigger Binding="{Binding INVStatus}" Value="PAYMENT RECEIVED">
+                                        <Setter TargetName="statusBorder" Property="Background" Value="#D4EDDA"/>
+                                        <Setter TargetName="statusBorder" Property="BorderBrush" Value="#C3E6CB"/>
+                                        <Setter TargetName="statusText" Property="Foreground" Value="#155724"/>
+                                    </DataTrigger>
+
+                                    <!-- Red / Danger -->
+                                    <DataTrigger Binding="{Binding INVStatus}" Value="Deleted">
+                                        <Setter TargetName="statusBorder" Property="Background" Value="#F8D7DA"/>
+                                        <Setter TargetName="statusBorder" Property="BorderBrush" Value="#F5C6CB"/>
+                                        <Setter TargetName="statusText" Property="Foreground" Value="#721C24"/>
+                                    </DataTrigger>
+
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+                    <DataGridTextColumn Header="Invoice No." Binding="{Binding INVNumber}" Width="120"
+                                ElementStyle="{StaticResource CenterTextStyle}"/>
+                    <DataGridTextColumn Header="Invoice Date" Binding="{Binding INVDate, StringFormat=d}" Width="110"
+                                ElementStyle="{StaticResource CenterTextStyle}"/>
+                    <DataGridTextColumn Header="Project Name" Binding="{Binding ProjectName}" Width="150"
+                                ElementStyle="{StaticResource CenterTextStyle}"/>
+                    <DataGridTextColumn Header="Total Amount" Binding="{Binding TotalAmount, StringFormat=N2}" Width="120"
+                                ElementStyle="{StaticResource CenterTextStyle}"/>
+                    <DataGridTextColumn Header="Amount Received" Binding="{Binding AmountReceived, StringFormat=₹{0:N2}}" 
+                    Width="120"
+                    ElementStyle="{StaticResource CenterTextStyle}" />
+
+
+                    <!--<DataGridTextColumn Header="Pending Amount" Binding="{Binding PendingAmount, StringFormat=N2}" Width="120"
+         ElementStyle="{StaticResource CenterTextStyle}"/>-->
+                    <DataGridTemplateColumn Header="Pending Amount" Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Style="{StaticResource CenterTextStyle}"
+                       FontWeight="Bold">
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource PendingAmountConverter}" StringFormat='₹{0:N2}'>
+                                            <Binding Path="TotalAmount" />
+                                            <Binding Path="AmountReceived" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+
+                                    <TextBlock.Foreground>
+                                        <MultiBinding Converter="{StaticResource PendingAmountBrushConverter}">
+                                            <Binding Path="TotalAmount" />
+                                            <Binding Path="AmountReceived" />
+                                        </MultiBinding>
+                                    </TextBlock.Foreground>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+
+
+
+                    <!-- Action Columns: All centered -->
+                    <DataGridTemplateColumn Header="" Width="60">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="btnView_Click"  Tag="{Binding}"
+                                Width="32" Height="32"
+                                Background="Transparent" ToolTip="View PDF"
+                                BorderBrush="Transparent" Padding="0" Margin="5"
+                                VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="EyeOutline" Foreground="Black" Width="16" Height="16"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header=" " Width="60">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="btnEdit_Click" Tag="{Binding}"
+                                Width="32" Height="32"
+                                Background="Transparent" ToolTip="Edit"
+                                BorderBrush="Transparent" Padding="0" Margin="5"
+                                VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Edit" Foreground="Black" Width="16" Height="16"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header=" " Width="60">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="btnSendtoClient_Click"  Tag="{Binding}"
+                                Width="32" Height="32"
+                                Background="Transparent" ToolTip="Send To Client"
+                                BorderBrush="Transparent" Padding="0" Margin="5"
+                                VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Share" Foreground="Black" Width="16" Height="16"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header=" " Width="60">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="btnAddPayment_Click" Tag="{Binding}"
+                                Width="32" Height="32"
+                                Background="Transparent" ToolTip="Add Payment Details"
+                                BorderBrush="Transparent" Padding="0" Margin="5"
+                                VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="AccountPaymentOutline" Foreground="Black" Width="16" Height="16"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header=" " Width="60">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="DownloadButton_Click" Tag="{Binding}"
+                                Width="32" Height="32"
+                                Background="Transparent" ToolTip="Download"
+                                BorderBrush="Transparent" Padding="0" Margin="5"
+                                VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="Download" Foreground="Black" Width="16" Height="16"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header=" " Width="60">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="DeleteButton_Click" Tag="{Binding}"
+                                Width="32" Height="32"
+                                Background="Transparent" ToolTip="Delete"
+                                BorderBrush="Transparent" Padding="0" Margin="5"
+                                VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="DeleteOutline" Foreground="Black" Width="16" Height="16"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Grid>
+</Page>
